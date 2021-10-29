@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
+import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-
+import { Box } from '@mui/system';
 import Button from '@material-ui/core/Button';
 import Grid from '@mui/material/Grid';
 
@@ -14,7 +15,6 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import DoneIcon from '@mui/icons-material/Done';
-import { Box, ThemeProvider } from '@mui/system';
 
 
 
@@ -47,68 +47,55 @@ const Cadastro = (): JSX.Element => {
 
     return (
         <React.Fragment>
-            <ThemeProvider
-                theme={{
-                    palette: {
-                        primary: {
-                            main: '#3887de',
-                            dark: '#38B0DE',
-                        },
-                    },
-                }}
-            >
-            </ThemeProvider>
             <Grid container
                 sx={{
                     display: "flex",
                     flexDirection: "column",
                     alignContent: "center",
-                    textAlign: "center",
-                  
+                    textAlign: "center"
                 }}
                 justifyContent="center"
             >
-                <Grid sx={{ minWidth:275 ,maxWidth: 600, mt:10 }}>
+                <Grid sx={{ minWidth: 275, maxWidth: 600, mt: 10}}>
                     <Grid>
-                        <Typography variant="h3" color="#38B0DE" sx={{ fontWeight: 300 }} gutterBottom>
+                        <Typography className="title" variant="h3" color="#38B0DE" sx={{ fontWeight: 300 }} gutterBottom>
                             <BusinessCenterOutlinedIcon /> Seguimento da Empresa
                         </Typography>
                     </Grid>
                     <Grid>
                         <Typography color="text.secondary">
-                            Confirme o seguimento que a
-                            sua empresa atua para personalizarmos
-                            sua experiência em nosso aplicativo.
+                                Confirme o seguimento que a
+                                sua empresa atua para personalizarmos
+                                sua experiência em nosso aplicativo.                    
                         </Typography>
                     </Grid>
                 </Grid>
 
                 {
-                    !showPesquisa &&
+                    !showPesquisa && 
                     <Grid sx={{ maxWidth: 600, mt: 10 }}>
 
                         <Grid>
-                            <Typography color="text.secondary">
+                            <Typography  color="text.secondary">
                                 Serviço Selecionado:
                             </Typography>
                         </Grid>
                         <Grid>
-                            <Typography variant="h3" color="#38B0DE" sx={{ fontWeight: 300 }} gutterBottom>
+                            <Typography className="subtitle" variant="h3" color="#38B0DE" sx={{ fontWeight: 300 }} gutterBottom>
                                 {servico?.descricao}
 
                                 <Button
                                     color="primary"
                                     onClick={() => { setShowPesquisa(true) }}
                                 >
-                                    <ModeEditOutlineOutlinedIcon />
+                                    <ModeEditOutlineOutlinedIcon className="editBtn"/>
                                 </Button>
                             </Typography>
                         </Grid>
                     </Grid>
                 }
-
                 {
-                    showPesquisa &&
+                    showPesquisa && 
                     <>
                         <Grid sx={{ my: 3 }}>
                             <TextField
@@ -118,7 +105,9 @@ const Cadastro = (): JSX.Element => {
                                 InputProps={{
                                     endAdornment: (
                                         <IconButton
-                                            onClick={() => { searchServices() }}
+                                            onClick={() => {
+                                                searchServices();
+                                            }}
                                         >
                                             <SearchIcon />
                                         </IconButton>
@@ -129,44 +118,45 @@ const Cadastro = (): JSX.Element => {
                         </Grid>
 
                         {
-                            pesquisaComponent.map((x: any, key: any) => {
+                            pesquisaComponent.map((x: any, i: any) => {
                                 return (
-                                    <>
+                                    <React.Fragment key = {i}>
                                         <Box sx={{
-                                            display:"flex",
-                                            flexDirection:"column",
-                                            mt:1
-                                            }}
-                                            >
-                                        <Button
-                                            variant="contained"
-                                            onClick={() => {
-                                                setServico(x);
-                                                setShowPesquisa(false);
-                                            }
-                                            }
-                                        >{x.descricao}
-                                        </Button>
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            mt: 1,
+                                        }}
+                                        >
+                                            <Button
+                                                className="resultBtn"
+                                                variant="contained"
+                                                onClick={() => {
+                                                    setServico(x);
+                                                    setShowPesquisa(false);
+                                                }
+                                                }
+                                            >{x.descricao}
+                                            </Button>
                                         </Box>
-                                    </>
+                                    </React.Fragment>
                                 )
                             }
                             )
                         }
                     </>
                 }
-
-
-
                 <Grid sx={{
                     gap: 2,
                     display: "flex",
-                    my:4
+                    my: 4,
+                    mx: 3
                 }}
                     justifyContent="center"
                 >
-                    <Button variant="outlined" color="primary" startIcon={<ArrowBackIosIcon />}>Voltar</Button>
-                    <Button variant="contained" color="primary" startIcon={<DoneIcon />}>Finalizar Cadastro</Button>
+                    <div className="btnContainer">
+                        <Button className="btn1" variant="outlined" color="primary" startIcon={<ArrowBackIosIcon />}>Voltar</Button>
+                        <Button className="btn2" variant="contained" color="primary" startIcon={<DoneIcon />}>Finalizar Cadastro</Button>
+                    </div>
                 </Grid>
             </Grid>
         </React.Fragment >
